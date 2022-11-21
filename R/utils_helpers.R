@@ -24,12 +24,41 @@ get_csv_from_link <- function(my_url){
 #' @noRd
 get_data <- function() {
   emergency_calls <- get_csv_from_link("https://data.stadt-zuerich.ch/dataset/sid_srz_einsatzstatistik/download/SRZ_einsatzstatistik_seit2010.csv") %>%
+    # some NA values are indicated by "-" and therefore the columns are read as char
     dplyr::mutate(dplyr::across(.cols = tidyselect::where(is.character),
-                                .fns = as.numeric)) # some NA values are indicated by "-" and therefore the columns are read as char
+                                .fns = as.numeric)) %>%
+    #convert year to integer - TBD/todo whether this is correct, first of January is odd, could also be the delivery date
+    dplyr::mutate(jahr = lubridate::year(jahr))
   ambulances <- get_csv_from_link("https://data.stadt-zuerich.ch/dataset/sid_srz_hilfsfirsten_rd/download/hilfsfrist_rd.csv")
   fire_service <- get_csv_from_link("https://data.stadt-zuerich.ch/dataset/sid_srz_ausrueckzeiten_fw/download/ausrueckzeit_fw.csv")
 
   return(list("emergency_calls" = emergency_calls,
               "ambulance" = ambulances,
               "fire_service" = fire_service))
+}
+
+#' plot_calls
+#'
+#' @param emergency_calls tibble on the emergency calls
+#' @param group_selector filters the dat to plot, can be fw, anz, san (?), rd (?)
+#'
+#' @return ggplot object
+#' @noRd
+plot_calls <- function(emergency_calls, group_selector) {
+  emergency_calls %>%
+    dplyr::select(jahr, dplyr::starts_with(group_selector)) %>%
+    tidyr::pivot_longer(cols = dplyr::starts_with(group_selector)) %>%
+    ggplot2::ggplot(mapping = ggplot2::aes(x = jahr, y = value, color = name)) +
+    ggplot2::geom_line()
+  #todo improve data selection and plotting. area plot? not sure what to do with the stuff that only is present for some years
+}
+
+#' plot_response_times
+#'
+#' @param response_times ambulance or fire_service tibble
+#'
+#' @return ggplot object
+#' @noRd
+plot_response_times <- function(response_times) {
+  #todo
 }
