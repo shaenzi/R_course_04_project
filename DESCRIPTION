@@ -13,3 +13,8 @@ LazyData: true
 RoxygenNote: 7.1.1
 URL: https://github.com/shaenzi/R_course_04_project
 BugReports: https://github.com/shaenzi/R_course_04_project/issues
+Suggests: 
+    spelling,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Language: en-US
