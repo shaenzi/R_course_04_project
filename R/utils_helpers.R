@@ -31,9 +31,11 @@ get_data <- function() {
     #convert year to integer - TBD/todo whether this is correct, first of January is odd, could also be the delivery date
     dplyr::mutate(jahr = lubridate::year(jahr))
   ambulances <- get_csv_from_link("https://data.stadt-zuerich.ch/dataset/sid_srz_hilfsfirsten_rd/download/hilfsfrist_rd.csv") %>%
-    janitor::clean_names()
+    janitor::clean_names() %>%
+    dplyr::mutate(hilfsfrist_mittelwert = lubridate::hms(hilfsfrist_mittelwert))
   fire_service <- get_csv_from_link("https://data.stadt-zuerich.ch/dataset/sid_srz_ausrueckzeiten_fw/download/ausrueckzeit_fw.csv") %>%
-    janitor::clean_names()
+    janitor::clean_names() %>%
+    dplyr::mutate(hilfsfrist_mittelwert = lubridate::hms(ausrueckzeit_mittelwert))
 
   return(list("emergency_calls" = emergency_calls,
               "ambulance" = ambulances,
@@ -59,6 +61,7 @@ plot_emergency_calls <- function(emergency_calls, group_selector) {
 #' plot_response_times
 #'
 #' @param response_times ambulance or fire_service tibble
+#' @param year filter for which year should be selected ('jahr' column in response_times)
 #'
 #' @return ggplot object
 #' @noRd
@@ -96,5 +99,72 @@ plot_response_times <- function(response_times, year) {
 }
 
 
+#' bar_chart
+#'
+#' @description Render a bar chart in a reactable with a label on the left
+#'
+#' @param label the value
+#' @param width the width of the bar to be charted, optional, defaults 100%
+#' @param height optional, default 1rem
+#' @param fill hex color value, default #00bfc4
+#' @param background hex color value, optional, default NULL
+#'
+#' @return html div with label (number) and bar for bar chart
+#' @noRd
+bar_chart <- function(label, width = "100%", height = "1rem", fill = "#00bfc4", background = NULL) {
+  bar <- htmltools::div(style = list(background = fill, width = width, height = height))
+  chart <- htmltools::div(style = list(flexGrow = 1, marginLeft = "0.5rem", background = background), bar)
+  htmltools::div(style = list(display = "flex", alignItems = "center"), label, chart)
+}
 
+#' put_data_in_table
+#'
+#' @description make reactable of ambulance/fire service response times
+#'
+#' @param response_times ambulance or fire_service tibble
+#' @param year filter for which year should be selected ('jahr' column in response_times)
+#'
+#' @return reactable
+#' @noRd
+put_data_in_table <- function(response_times, year) {
+  response_times <- response_times %>%
+    dplyr::filter(jahr == year)
+  # could outsource this to a function? though only 2 lines
 
+  max_hilfsfrist <- max(
+    lubridate::period_to_seconds(response_times$hilfsfrist_mittelwert)
+    )
+
+  response_times %>%
+    dplyr::filter(jahr == year) %>%
+    dplyr::select(stadtkreis, prozent_einsaetze_bis_10min, hilfsfrist_mittelwert) %>%
+    reactable::reactable(columns = list(
+      stadtkreis = reactable::colDef(name = "Stadtkreis"),
+      prozent_einsaetze_bis_10min = reactable::colDef(
+        name = "Anteil Einsätze unter 10min",
+        cell = function(value) {
+          width <- paste0(value*100 / max(ambulances$prozent_einsaetze_bis_10min), "%")
+          value <- paste0(format(round(value, 1), nsmall = 1), "%")
+          bar_chart(value, width = width)
+        }),
+      hilfsfrist_mittelwert = reactable::colDef(
+        name = "durchschnittliche Hilfsfrist",
+        cell = function(value) {
+          width <- paste0(lubridate::period_to_seconds(value) *100 / max_hilfsfrist, "%")
+          value <- paste0(lubridate::minute(value),
+                          ":",
+                          lubridate::second(value))
+          bar_chart(value, width = width)
+        }
+      )
+    ),
+    pagination = FALSE,
+    highlight = TRUE)
+
+  # issue. sorting of char stadtkreise gives 1, 10, 11, 12, 2
+  # issue: should really format into %M:%S rather than extracting minutes and seconds,
+  #   as it does not align for the fire service --> question
+
+  # Todo: better font, better colors, better column widths
+
+}
