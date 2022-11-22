@@ -10,7 +10,11 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic
     fluidPage(
-      h1("c4app")
+      h1("Response times of ambulances and fire services in the city of Zurich"),
+      tagList(
+        mod_response_times_ui("ambulance"),
+        mod_response_times_ui("fire_service")
+      )
     )
   )
 }

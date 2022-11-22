@@ -12,7 +12,7 @@ get_csv_from_link <- function(my_url){
     janitor::clean_names()
 }
 
-#' get_data
+#' get_zurich_data
 #'
 #' @description Function to read the three open government datasets on which the app is based
 #'
@@ -22,7 +22,7 @@ get_csv_from_link <- function(my_url){
 #'
 #' @return a named list of tibbles with emergency_calls, ambulance, and fire_service
 #' @noRd
-get_data <- function() {
+get_zurich_data <- function() {
   emergency_calls <- get_csv_from_link("https://data.stadt-zuerich.ch/dataset/sid_srz_einsatzstatistik/download/SRZ_einsatzstatistik_seit2010.csv") %>%
     janitor::clean_names() %>%
     # some NA values are indicated by "-" and therefore the columns are read as char
