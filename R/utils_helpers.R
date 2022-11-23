@@ -33,10 +33,12 @@ get_zurich_data <- function() {
     dplyr::mutate(jahr = lubridate::year(jahr))
   ambulances <- get_csv_from_link("https://data.stadt-zuerich.ch/dataset/sid_srz_hilfsfirsten_rd/download/hilfsfrist_rd.csv") %>%
     janitor::clean_names() %>%
-    dplyr::mutate(hilfsfrist_mittelwert = lubridate::hms(hilfsfrist_mittelwert))
+    dplyr::mutate(hilfsfrist_mittelwert = lubridate::hms(hilfsfrist_mittelwert)) %>%
+    dplyr::mutate(hilfsfrist_sec = lubridate::period_to_seconds(hilfsfrist_mittelwert))
   fire_service <- get_csv_from_link("https://data.stadt-zuerich.ch/dataset/sid_srz_ausrueckzeiten_fw/download/ausrueckzeit_fw.csv") %>%
     janitor::clean_names() %>%
-    dplyr::mutate(hilfsfrist_mittelwert = lubridate::hms(ausrueckzeit_mittelwert))
+    dplyr::mutate(hilfsfrist_mittelwert = lubridate::hms(ausrueckzeit_mittelwert)) %>%
+    dplyr::mutate(hilfsfrist_sec = lubridate::period_to_seconds(hilfsfrist_mittelwert))
   print("done getting the data")
 
   return(list("emergency_calls" = emergency_calls,
@@ -97,7 +99,8 @@ plot_response_times <- function(response_times, year) {
     ggplot2::geom_sf(ggplot2::aes(fill = quantiles),
                      color = "white") +
     ggplot2::scale_fill_viridis_d(option = "E") +
-    ggplot2::theme_void()
+    ggplot2::theme_void() +
+    ggplot2::theme(legend.position="bottom")
 }
 
 
@@ -133,13 +136,11 @@ put_data_in_table <- function(response_times, year) {
     dplyr::filter(jahr == year)
   # could outsource this to a function? though only 2 lines
 
-  max_hilfsfrist <- max(
-    lubridate::period_to_seconds(response_times$hilfsfrist_mittelwert)
-    )
+  max_hilfsfrist <- max(response_times$hilfsfrist_sec)
 
   response_times %>%
     dplyr::filter(jahr == year) %>%
-    dplyr::select(stadtkreis, prozent_einsaetze_bis_10min, hilfsfrist_mittelwert) %>%
+    dplyr::select(stadtkreis, prozent_einsaetze_bis_10min, hilfsfrist_sec) %>%
     reactable::reactable(columns = list(
       stadtkreis = reactable::colDef(name = "Stadtkreis"),
       prozent_einsaetze_bis_10min = reactable::colDef(
@@ -149,13 +150,12 @@ put_data_in_table <- function(response_times, year) {
           value <- paste0(format(round(value, 1), nsmall = 1), "%")
           bar_chart(value, width = width)
         }),
-      hilfsfrist_mittelwert = reactable::colDef(
+      hilfsfrist_sec = reactable::colDef(
         name = "durchschnittliche Hilfsfrist",
         cell = function(value) {
-          width <- paste0(lubridate::period_to_seconds(value) *100 / max_hilfsfrist, "%")
-          value <- paste0(lubridate::minute(value),
-                          ":",
-                          lubridate::second(value))
+          width <- paste0(value *100 / max_hilfsfrist, "%")
+          # hacky way to specify the hours and minutes to make sure there are always two digits each
+          value <- format(Sys.Date() + lubridate::seconds_to_period(value), "%M:%S")
           bar_chart(value, width = width)
         }
       )

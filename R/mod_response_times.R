@@ -10,7 +10,7 @@
 mod_response_times_ui <- function(id){
   ns <- NS(id)
   fluidPage(
-    h1("response times"),
+    h2("response times"),
     fluidRow(column(6,
                     plotOutput(ns("map"))),
              column(6,
