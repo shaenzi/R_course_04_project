@@ -23,6 +23,7 @@ get_csv_from_link <- function(my_url){
 #' @return a named list of tibbles with emergency_calls, ambulance, and fire_service
 #' @noRd
 get_zurich_data <- function() {
+  print("starting to get the data")
   emergency_calls <- get_csv_from_link("https://data.stadt-zuerich.ch/dataset/sid_srz_einsatzstatistik/download/SRZ_einsatzstatistik_seit2010.csv") %>%
     janitor::clean_names() %>%
     # some NA values are indicated by "-" and therefore the columns are read as char
@@ -36,6 +37,7 @@ get_zurich_data <- function() {
   fire_service <- get_csv_from_link("https://data.stadt-zuerich.ch/dataset/sid_srz_ausrueckzeiten_fw/download/ausrueckzeit_fw.csv") %>%
     janitor::clean_names() %>%
     dplyr::mutate(hilfsfrist_mittelwert = lubridate::hms(ausrueckzeit_mittelwert))
+  print("done getting the data")
 
   return(list("emergency_calls" = emergency_calls,
               "ambulance" = ambulances,
@@ -143,7 +145,7 @@ put_data_in_table <- function(response_times, year) {
       prozent_einsaetze_bis_10min = reactable::colDef(
         name = "Anteil Einsätze unter 10min",
         cell = function(value) {
-          width <- paste0(value*100 / max(ambulances$prozent_einsaetze_bis_10min), "%")
+          width <- paste0(value*100 / max(response_times$prozent_einsaetze_bis_10min), "%")
           value <- paste0(format(round(value, 1), nsmall = 1), "%")
           bar_chart(value, width = width)
         }),
@@ -166,5 +168,4 @@ put_data_in_table <- function(response_times, year) {
   #   as it does not align for the fire service --> question
 
   # Todo: better font, better colors, better column widths
-
 }

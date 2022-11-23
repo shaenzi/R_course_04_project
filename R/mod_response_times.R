@@ -9,13 +9,14 @@
 #' @importFrom shiny NS tagList
 mod_response_times_ui <- function(id){
   ns <- NS(id)
-  fluidRow(column(6,
-                  plotOutput("map")),
-           column(6,
-                  reactable::reactableOutput("table"))
-           # Todo add input for year selection
-
-  )
+  fluidPage(
+    h1("response times"),
+    fluidRow(column(6,
+                    plotOutput(ns("map"))),
+             column(6,
+                    reactable::reactableOutput(ns("table")))
+             # Todo add input for year selection
+  )  )
 }
 
 #' response_times Server Functions
@@ -31,7 +32,7 @@ mod_response_times_server <- function(id, response_times){
       plot_response_times(response_times, 2020)
     })
 
-    output$table <- renderReactable({
+    output$table <- reactable::renderReactable({
       put_data_in_table(response_times, 2020)
     })
     # TODO: test!
@@ -44,3 +45,15 @@ mod_response_times_server <- function(id, response_times){
 
 ## To be copied in the server
 # mod_response_times_server("response_times_1")
+
+#
+# ui <- fluidPage(
+#       mod_response_times_ui("ambulance")
+# )
+#
+# server <- function(input, output, session) {
+#   data_vector <- get_zurich_data()
+#   # This does not work. probably not run yet?
+#
+#   mod_response_times_server("ambulance", data_vector[["ambulance"]])
+# }
