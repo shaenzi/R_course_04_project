@@ -10,6 +10,7 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic
     fluidPage(
+      theme = bslib::bs_theme(version = 4, bootswatch = "sandstone"),
       h1("Response times of ambulances and fire services in the city of Zurich"),
       tagList(
         mod_response_times_ui("ambulance"),

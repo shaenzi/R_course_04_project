@@ -10,6 +10,7 @@ BugReports: https://github.com/shaenzi/R_course_04_project/issues
 Depends: 
     R (>= 2.10)
 Imports: 
+    bslib,
     config (>= 0.3.1),
     dplyr,
     ggplot2,
