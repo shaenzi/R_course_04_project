@@ -39,6 +39,7 @@ Better to take out the lake in the map?
 
 # Concrete todos
 
+- [x] write ReadMe
 - [ ] load data in better place - depends on help
 - [ ] make year selector choices dependent on data - depends on help
 - [ ] make map interactive
