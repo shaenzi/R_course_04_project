@@ -12,6 +12,7 @@ format:
 - where should I run the data loading?
 - where can I load the data so that it is also accessible to the ui? (needed for sensible input choices)
 - how can/should I test the module?
+- how can I add an about page? from html? from Rmarkdown? from Markdown?
 
 # UI considerations
 
@@ -35,3 +36,17 @@ would have to manually parse/add those 6 addresses to a small dataset
 ## Lake
 
 Better to take out the lake in the map?
+
+# Concrete todos
+
+- [ ] load data in better place - depends on help
+- [ ] make year selector choices dependent on data - depends on help
+- [ ] make map interactive
+- write tests
+  - [ ] for data reading
+  - [ ] for plotting
+  - [ ] for the module
+- emergency calls
+  - [ ] play around with the date and come up with a good plot
+  - [ ] make a new module for this (is it interactive?)
+  - [ ] decide on and adjust overall UI
