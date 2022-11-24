@@ -1,0 +1,37 @@
+---
+title: "Development notes"
+author: "Sara"
+date: "`r format(Sys.Date(), '%d %b %Y')`"
+format: 
+  html:
+    self-contained: true
+---
+
+# Technical stuff
+
+- where should I run the data loading?
+- where can I load the data so that it is also accessible to the ui? (needed for sensible input choices)
+- how can/should I test the module?
+
+# UI considerations
+
+- make the module in a kind of card?
+- general layout? add text/about/possibly another plot
+- the map legend is tiny
+- not sure about the table [widths](https://glin.github.io/reactable/articles/examples.html#column-resizing), column names, their alignment etc.
+- general low-key effort to improve the table?
+- what kind of input? drop down, radio button, ...
+- mobile? 
+
+
+# Content considerations
+
+## Locations
+
+it would be nice to add the locations from where the emergency services start?
+see [ambulances](https://www.stadt-zuerich.ch/pd/de/index/schutz_u_rettung_zuerich/sanitaet/so_arbeiten_wir/rettungsdienstwachen.html) and [fire services](https://www.stadt-zuerich.ch/pd/de/index/schutz_u_rettung_zuerich/feuerwehr/wir_ueber_uns/einsatzgebiet.html)
+would have to manually parse/add those 6 addresses to a small dataset
+
+## Lake
+
+Better to take out the lake in the map?
