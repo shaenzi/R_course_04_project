@@ -3,15 +3,20 @@
 #' @description A shiny Module for showing response times on a map and in a reactable
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
+#' @param title H2 title to show at the top of the module ui
 #'
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_response_times_ui <- function(id){
+mod_response_times_ui <- function(id, title){
   ns <- NS(id)
   fluidPage(
-    h2("response times"),
+    h2(title),
     fluidRow(column(6,
+                    selectInput(ns("year_switch"),
+                                label = "choose a year",
+                                choices = c(2020, 2021),
+                                selected = 2021), # should really be responsive/interactive!!
                     plotOutput(ns("map"))),
              column(6,
                     reactable::reactableOutput(ns("table")))
@@ -22,18 +27,21 @@ mod_response_times_ui <- function(id){
 #' response_times Server Functions
 #'
 #' @param response_times tibble with response times, ambulances or fire_service
+#' @param plot_title String to place as title to the map
 #'
 #' @noRd
-mod_response_times_server <- function(id, response_times){
+mod_response_times_server <- function(id, response_times, plot_title){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
     output$map <- renderPlot({
-      plot_response_times(response_times, 2020)
+      plot_response_times(response_times,
+                          as.numeric(input$year_switch),
+                          plot_title)
     })
 
     output$table <- reactable::renderReactable({
-      put_data_in_table(response_times, 2020)
+      put_data_in_table(response_times, as.numeric(input$year_switch))
     })
     # TODO: test!
 

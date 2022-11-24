@@ -5,7 +5,7 @@
 #'
 #' @return ggplot object
 #' @noRd
-plot_response_times <- function(response_times, year) {
+plot_response_times <- function(response_times, year, title) {
   response_times <- response_times %>%
     dplyr::filter(jahr == year)
 
@@ -34,7 +34,8 @@ plot_response_times <- function(response_times, year) {
     ggplot2::ggplot() +
     ggplot2::geom_sf(ggplot2::aes(fill = quantiles),
                      color = "white") +
-    ggplot2::scale_fill_viridis_d(option = "E") +
+    ggplot2::scale_fill_viridis_d(option = "E", name = NULL) +
+    ggplot2::labs(title = title) +
     ggplot2::theme_void() +
     ggplot2::theme(legend.position="bottom")
 }
@@ -78,7 +79,8 @@ put_data_in_table <- function(response_times, year) {
     dplyr::filter(jahr == year) %>%
     dplyr::select(stadtkreis, prozent_einsaetze_bis_10min, hilfsfrist_sec) %>%
     reactable::reactable(columns = list(
-      stadtkreis = reactable::colDef(name = "Stadtkreis"),
+      stadtkreis = reactable::colDef(name = "Stadtkreis",
+                                     minWidth = 60),
       prozent_einsaetze_bis_10min = reactable::colDef(
         name = "Anteil Einsätze unter 10min",
         cell = function(value) {
