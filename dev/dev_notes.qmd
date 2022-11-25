@@ -44,7 +44,7 @@ Better to take out the lake in the map?
 - [ ] make year selector choices dependent on data - depends on help
 - [ ] make map interactive
 - write tests
-  - [ ] for data reading
+  - [x] for data reading
   - [ ] for plotting
   - [ ] for the module
 - emergency calls
