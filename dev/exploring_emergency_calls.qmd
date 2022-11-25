@@ -1,0 +1,40 @@
+---
+title: "Exploring the emergency calls data"
+author: "Sara"
+date: "`r format(Sys.Date(), '%d %b %Y')`"
+format: 
+  html:
+    self-contained: true
+---
+
+```{r}
+emergency_calls <- get_zurich_data()[["emergency_calls"]]
+names(emergency_calls)
+```
+
+```{r}
+plot_emergency_calls <- function(emergency_calls, group_selector) {
+  emergency_calls %>%
+    dplyr::select(jahr, dplyr::starts_with(group_selector)) %>%
+    tidyr::pivot_longer(cols = dplyr::starts_with(group_selector)) %>%
+    ggplot2::ggplot(mapping = ggplot2::aes(x = jahr, y = value, color = name)) +
+    ggplot2::geom_line()
+}
+```
+
+```{r}
+plot_emergency_calls(emergency_calls, "anz")
+```
+
+```{r}
+plot_emergency_calls(emergency_calls, "san")
+```
+```{r}
+plot_emergency_calls(emergency_calls, "fw")
+```
+
+```{r}
+plot_emergency_calls(emergency_calls, "rd")
+```
+
+compare to data descriptions on the open data portal and select some reasonable things to plot
