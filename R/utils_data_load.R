@@ -24,12 +24,12 @@ get_csv_from_link <- function(my_url){
 #' @noRd
 get_zurich_data <- function() {
   print("starting to get the data")
-  emergency_calls <- get_csv_from_link("https://data.stadt-zuerich.ch/dataset/sid_srz_einsatzstatistik/download/SRZ_einsatzstatistik_seit2010.csv") %>%
-    # some NA values are indicated by "-" and therefore the columns are read as char
-    dplyr::mutate(dplyr::across(.cols = tidyselect::where(is.character),
-                                .fns = as.numeric)) %>%
-    #convert year to integer - TBD/todo whether this is correct, first of January is odd, could also be the delivery date
-    dplyr::mutate(jahr = lubridate::year(jahr))
+  # emergency_calls <- get_csv_from_link("https://data.stadt-zuerich.ch/dataset/sid_srz_einsatzstatistik/download/SRZ_einsatzstatistik_seit2010.csv") %>%
+  #   # some NA values are indicated by "-" and therefore the columns are read as char
+  #   dplyr::mutate(dplyr::across(.cols = tidyselect::where(is.character),
+  #                               .fns = as.numeric)) %>%
+  #   #convert year to integer - TBD/todo whether this is correct, first of January is odd, could also be the delivery date
+  #   dplyr::mutate(jahr = lubridate::year(jahr))
   ambulances <- get_csv_from_link("https://data.stadt-zuerich.ch/dataset/sid_srz_hilfsfirsten_rd/download/hilfsfrist_rd.csv") %>%
     dplyr::mutate(hilfsfrist_mittelwert = lubridate::hms(hilfsfrist_mittelwert)) %>%
     dplyr::mutate(hilfsfrist_sec = lubridate::period_to_seconds(hilfsfrist_mittelwert))
@@ -38,7 +38,11 @@ get_zurich_data <- function() {
     dplyr::mutate(hilfsfrist_sec = lubridate::period_to_seconds(hilfsfrist_mittelwert))
   print("done getting the data")
 
-  return(list("emergency_calls" = emergency_calls,
+  return(list(#"emergency_calls" = emergency_calls,
               "ambulance" = ambulances,
               "fire_service" = fire_service))
 }
+
+# call this here to make it available to both the UI and the Server
+# probably there is a better option?
+data_vector <- get_zurich_data()

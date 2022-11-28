@@ -8,15 +8,15 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_response_times_ui <- function(id, title){
+mod_response_times_ui <- function(id, title, choices){
   ns <- NS(id)
   fluidPage(
     h2(title),
     fluidRow(column(6,
                     selectInput(ns("year_switch"),
                                 label = "choose a year",
-                                choices = c(2020, 2021),
-                                selected = 2021), # should really be responsive/interactive!!
+                                choices = choices,
+                                selected = choices[1]), # should really be responsive/interactive!!
                     plotOutput(ns("map"))),
              column(6,
                     reactable::reactableOutput(ns("table")))

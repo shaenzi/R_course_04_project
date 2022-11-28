@@ -6,8 +6,6 @@
 #' @noRd
 app_server <- function(input, output, session) {
   # Your application server logic
-  data_vector <- get_zurich_data()
-  # It's super-slow to do this here. where should I do it?
 
   mod_response_times_server(id = "ambulance",
                             response_times = data_vector[["ambulance"]],

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sara">
-<meta name="dcterms.date" content="2022-11-24">
+<meta name="dcterms.date" content="2022-11-28">
 
 <title>Development notes</title>
 <style>
@@ -2455,7 +2455,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 24, 2022</p>
+      <p class="date">November 28, 2022</p>
     </div>
   </div>
     
@@ -2499,20 +2499,23 @@ vertical-align: -.125em;
 <section id="concrete-todos" class="level1">
 <h1>Concrete todos</h1>
 <ul>
-<li><input type="checkbox" disabled>
-load data in better place - depends on help</li>
-<li><input type="checkbox" disabled>
-make year selector choices dependent on data - depends on help</li>
+<li><input type="checkbox" disabled checked>
+write ReadMe</li>
+<li><input type="checkbox" disabled checked>
+load data in better place - probably not ideal but seems to work</li>
+<li><input type="checkbox" disabled checked>
+make year selector choices dependent on data - probably not ideal but seems to work</li>
 <li><input type="checkbox" disabled>
 make map interactive</li>
 <li>write tests
-<ul class="task-list">
-<li><input type="checkbox" disabled>
+<ul>
+<li><input type="checkbox" disabled checked>
 for data reading</li>
 <li><input type="checkbox" disabled>
 for plotting</li>
 <li><input type="checkbox" disabled>
 for the module</li>
+<li>where should I test whether the data that I load has the columns I need for the plotting and the table? in the data loading test if everything depends on it</li>
 </ul></li>
 <li>emergency calls
 <ul class="task-list">
@@ -2523,6 +2526,12 @@ make a new module for this (is it interactive?)</li>
 <li><input type="checkbox" disabled>
 decide on and adjust overall UI</li>
 </ul></li>
+</ul>
+</section>
+<section id="known-issues" class="level1">
+<h1>known issues</h1>
+<ul>
+<li>data loading function is called directly where it is defined in the utils. pro: this makes the data available to the ui and the server and means this is run before the app is started. con: does not feel like a clean way of doing things?</li>
 </ul>
 </section>
 

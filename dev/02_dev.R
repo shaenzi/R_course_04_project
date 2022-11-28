@@ -26,6 +26,7 @@ golem::add_module(name = "response_times", with_test = TRUE) # Name of the modul
 ## Add helper functions ----
 ## Creates fct_* and utils_*
 golem::add_fct("helpers", with_test = TRUE)
+golem::add_fct("load_data", with_test = FALSE)
 golem::add_utils("data_load", with_test = TRUE)
 golem::add_utils("mod_response_times_vis", with_test = TRUE)
 

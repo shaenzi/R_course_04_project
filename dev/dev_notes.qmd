@@ -40,15 +40,19 @@ Better to take out the lake in the map?
 # Concrete todos
 
 - [x] write ReadMe
-- [ ] load data in better place - depends on help
-- [ ] make year selector choices dependent on data - depends on help
+- [x] load data in better place - probably not ideal but seems to work
+- [x] make year selector choices dependent on data - probably not ideal but seems to work
 - [ ] make map interactive
 - write tests
   - [x] for data reading
   - [ ] for plotting
   - [ ] for the module
-  - where should I test whether the data that I load has the columns I need for the plotting and the table?
+  - where should I test whether the data that I load has the columns I need for the plotting and the table? in the data loading test if everything depends on it
 - emergency calls
   - [ ] play around with the date and come up with a good plot
   - [ ] make a new module for this (is it interactive?)
   - [ ] decide on and adjust overall UI
+
+# known issues
+
+- data loading function is called directly where it is defined in the utils. pro: this makes the data available to the ui and the server and means this is run before the app is started. con: does not feel like a clean way of doing things?
