@@ -45,7 +45,9 @@ Better to take out the lake in the map?
 - [ ] correct sorting of 'stadtkreise' - needs a javascript function!!
 - [x] make language consistently English
 - [x] adjust colors of map and bars
-- [ ] make page tabs: ambulance, fire services, about
+- [x] make a navbar page with ambulance, fire services
+- [ ] add tabPanel with About Page
+- [ ] improve header alignment
 - [ ] make map interactive, see [plotly documentation](https://plotly.com/r/choropleth-maps/)
 - [ ] add locations of ambulance/fire service bases to the map
 - write tests
