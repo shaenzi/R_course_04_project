@@ -56,7 +56,7 @@ plot_response_times <- function(response_times, year, title) {
 #'
 #' @return html div with label (number) and bar for bar chart
 #' @noRd
-bar_chart <- function(label, width = "100%", height = "1rem", fill = "#00bfc4", background = NULL) {
+bar_chart <- function(label, width = "100%", height = "1rem", fill = "#0d0599", background = "#e1e1e1") {
   bar <- htmltools::div(style = list(background = fill, width = width, height = height))
   chart <- htmltools::div(style = list(flexGrow = 1, marginLeft = "0.5rem", background = background), bar)
   htmltools::div(style = list(display = "flex", alignItems = "center"), label, chart)
@@ -98,7 +98,7 @@ put_data_in_table <- function(response_times, year) {
           bar_chart(value, width = width)
         }),
       hilfsfrist_sec = reactable::colDef(
-        name = "mean response time",
+        name = "mean response time [min:sec]",
         cell = function(value) {
           width <- paste0(value *100 / max_hilfsfrist, "%")
           # hacky way to specify the hours and minutes to make sure there are always two digits each
