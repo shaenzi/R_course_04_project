@@ -22,6 +22,18 @@ plot_emergency_calls <- function(emergency_calls, group_selector) {
 }
 ```
 
+# Metadata
+
+Reading the additional information where [the data is provided](https://data.stadt-zuerich.ch/dataset/sid_srz_einsatzstatistik), we learn a few things 
+![sanitätseinsätze](../dev/comments on data.png)
+
+- Verlegungstransporte only since 2019
+- total number of "sanitätseinsätze" can either be split depending on whether a medical doctor was present or whether it happened within the citi or outside
+- if outside the city, counting of whether a medical doctor was present was different before 2015
+- the total number of calls counted changed in 2016, not comparable to before
+
+# Plots no data cleaning/selection
+
 ```{r}
 plot_emergency_calls(emergency_calls, "anz")
 ```
@@ -37,4 +49,51 @@ plot_emergency_calls(emergency_calls, "fw")
 plot_emergency_calls(emergency_calls, "rd")
 ```
 
-compare to data descriptions on the open data portal and select some reasonable things to plot
+# Plots selected data
+
+```{r}
+get_rid_columns <- c("anz_gebaeudekontrollen", "anz_schlussabnahmen",
+                     "fw_dienstleistungen_fks_statistik", 
+                     "rd_nicht_stadt_einsaetze_mit_na",
+                     "rd_nicht_stadt_einsaetze_ohne_na",
+                     "rd_stadt_einsaetze_mit_na",
+                     "rd_stadt_einsaetze_ohne_na")
+emergency_calls <- emergency_calls %>%
+  dplyr::select(-dplyr::any_of(get_rid_columns))
+```
+
+
+## number of calls
+
+```{r}
+emergency_calls %>%
+  plot_emergency_calls("anz")
+```
+
+## Fire service
+```{r}
+emergency_calls %>%
+  dplyr::select(-fw_einsaetze_total) %>%
+  plot_emergency_calls("fw")
+```
+```{r}
+emergency_calls %>%
+  dplyr::select(dplyr::starts_with("fw"), jahr, -fw_einsaetze_total) %>%
+  tidyr::pivot_longer(cols = dplyr::starts_with("fw")) %>%
+  ggplot2::ggplot(mapping = ggplot2::aes(x = jahr, y = value, fill = name)) +
+  ggplot2::geom_area()
+```
+add firstresponder and unfaelle to weitere (lump factors)
+fires at the bottom??
+
+plot total separately? not on this plot
+
+## ambulances
+
+```{r}
+plot_emergency_calls(emergency_calls, "san")
+```
+
+```{r}
+plot_emergency_calls(emergency_calls, "rd")
+```

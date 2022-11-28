@@ -42,16 +42,33 @@ Better to take out the lake in the map?
 - [x] write ReadMe
 - [x] load data in better place - probably not ideal but seems to work
 - [x] make year selector choices dependent on data - probably not ideal but seems to work
+- [ ] correect sorting of 'stadtkreise'
+- [ ] make language consistently English
 - [ ] make map interactive
+- [ ] add locations of ambulance/fire service bases to the map
 - write tests
-  - [x] for data reading
-  - [ ] for plotting
-  - [ ] for the module
-  - where should I test whether the data that I load has the columns I need for the plotting and the table? in the data loading test if everything depends on it
-- emergency calls
+  - [ ] for data reading - make sure I have the columns in the data that I need in the plot and table
+  - [ ] for plotting - okish
+  - [ ] for the module - okish
+- emergency calls - low priority
   - [ ] play around with the date and come up with a good plot
   - [ ] make a new module for this (is it interactive?)
   - [ ] decide on and adjust overall UI
+  
+## filtering
+
+using a named vector as the 'stadtkreis' column does not work, reactable does not show the label, it still shows the value
+```{r eval=FALSE}
+stadtkreise_num <- as.numeric(stringr::str_extract(ambulance$stadtkreis, "[:digit:]+"))
+names(stadtkreise_num) <- ambulance$stadtkreis
+ambulance$stadtkreis <- stadtkreise_num
+put_data_in_table(ambulance, 2020)
+# filtering won't work
+```
+
+using factors probably won't work either as [this issue](https://github.com/glin/reactable/issues/202) is still open
+
+the [examples](https://glin.github.io/reactable/articles/custom-filtering.html#regular-expression-pattern-filtering) say I can add a custom filtering function but it needs to be in javascript...--> ask course instructors
 
 # known issues
 
