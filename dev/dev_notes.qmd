@@ -42,8 +42,8 @@ Better to take out the lake in the map?
 - [x] write ReadMe
 - [x] load data in better place - probably not ideal but seems to work
 - [x] make year selector choices dependent on data - probably not ideal but seems to work
-- [ ] correect sorting of 'stadtkreise'
-- [ ] make language consistently English
+- [ ] correct sorting of 'stadtkreise' - needs a javascript function!!
+- [x] make language consistently English
 - [ ] make map interactive
 - [ ] add locations of ambulance/fire service bases to the map
 - write tests

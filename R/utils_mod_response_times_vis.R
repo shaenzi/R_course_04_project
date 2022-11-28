@@ -81,7 +81,7 @@ put_data_in_table <- function(response_times, year) {
     dplyr::select(stadtkreis, prozent_einsaetze_bis_10min, hilfsfrist_sec) %>%
     reactable::reactable(columns = list(
       stadtkreis = reactable::colDef(
-        name = "Stadtkreis",
+        name = "urban district",
         minWidth = 60,
         filterMethod = htmlwidgets::JS("function(rows, columnId, filterValue) {
         return rows.filter(function(row) {
@@ -89,14 +89,14 @@ put_data_in_table <- function(response_times, year) {
         })
       }")),
       prozent_einsaetze_bis_10min = reactable::colDef(
-        name = "Anteil Einsätze unter 10min",
+        name = "proportion of response times below 10min",
         cell = function(value) {
           width <- paste0(value*100 / max(response_times$prozent_einsaetze_bis_10min), "%")
           value <- paste0(format(round(value, 1), nsmall = 1), "%")
           bar_chart(value, width = width)
         }),
       hilfsfrist_sec = reactable::colDef(
-        name = "durchschnittliche Hilfsfrist",
+        name = "mean response time",
         cell = function(value) {
           width <- paste0(value *100 / max_hilfsfrist, "%")
           # hacky way to specify the hours and minutes to make sure there are always two digits each
