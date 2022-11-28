@@ -26,6 +26,7 @@ plot_response_times <- function(response_times, year, title) {
   # join the two tibbles and plot as a map
   # always need to join with sf as main tibble, otherwise cannot plot
   zurich_kreise %>%
+    sf::st_as_sf() %>%
     dplyr::left_join(response_times, by = c("bezeichnun" = "stadtkreis")) %>%
     dplyr::mutate(quantiles = cut(prozent_einsaetze_bis_10min,
                                   breaks = quantile_vec,
@@ -79,8 +80,14 @@ put_data_in_table <- function(response_times, year) {
     dplyr::filter(jahr == year) %>%
     dplyr::select(stadtkreis, prozent_einsaetze_bis_10min, hilfsfrist_sec) %>%
     reactable::reactable(columns = list(
-      stadtkreis = reactable::colDef(name = "Stadtkreis",
-                                     minWidth = 60),
+      stadtkreis = reactable::colDef(
+        name = "Stadtkreis",
+        minWidth = 60,
+        filterMethod = htmlwidgets::JS("function(rows, columnId, filterValue) {
+        return rows.filter(function(row) {
+          return Number(row.values[columnId].slice(-2))
+        })
+      }")),
       prozent_einsaetze_bis_10min = reactable::colDef(
         name = "Anteil Einsätze unter 10min",
         cell = function(value) {
