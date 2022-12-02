@@ -25,7 +25,7 @@ plot_response_times <- function(response_times, year, title) {
 
   # join the two tibbles and plot as a map
   # always need to join with sf as main tibble, otherwise cannot plot
-  zurich_kreise %>%
+  p <- zurich_kreise %>%
     sf::st_as_sf() %>%
     dplyr::left_join(response_times, by = c("bezeichnun" = "stadtkreis_string")) %>%
     dplyr::mutate(quantiles = cut(prozent_einsaetze_bis_10min,
@@ -40,7 +40,10 @@ plot_response_times <- function(response_times, year, title) {
     #ggplot2::scale_fill_brewer(palette = "RdBu") +
     ggplot2::labs(title = title) +
     ggplot2::theme_void() +
-    ggplot2::theme(legend.position="bottom")
+    ggplot2::theme(legend.position="bottom",
+                   legend.title=element_blank())
+  plotly::ggplotly(p) %>%
+    style(hoveron = "fill")
 }
 
 

@@ -22,6 +22,14 @@ response_times <- response_times %>%
                                 labels = labels,
                                 include.lowest = TRUE))
 
+colors <- c("#fef0d9",
+            "#fdcc8a",
+            "#fc8d59",
+            "#e34a33",
+            "#b30000")
+
+names(colors) <- labels
+
 
 g <- list(
   fitbounds = "locations",
@@ -38,8 +46,8 @@ fig <- fig %>% add_trace(
   type="choropleth",
   geojson=zurich_kreise,
   locations=response_times$stadtkreis_string,
-  z=response_times$prozent_einsaetze_bis_10min, # quantiles do not work??
-  colorscale="Viridis",
+  z=response_times$quantiles, # quantiles do not work??
+  colorscale=colors,#"Viridis",
   featureidkey="properties.bezeichnung",
   zmin=min(response_times$prozent_einsaetze_bis_10min),
   zmax=100,

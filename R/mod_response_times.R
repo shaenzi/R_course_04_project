@@ -17,7 +17,7 @@ mod_response_times_ui <- function(id, title, choices, notes=""){
                                 label = "choose a year",
                                 choices = choices,
                                 selected = choices[1]),
-                    plotOutput(ns("map"))),
+                    plotly::plotlyOutput(ns("map"))),
              column(6,
                     reactable::reactableOutput(ns("table")))
              # Todo add input for year selection
@@ -35,7 +35,7 @@ mod_response_times_server <- function(id, response_times, plot_title){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    output$map <- renderPlot({
+    output$map <- plotly::renderPlotly({
       plot_response_times(response_times,
                           as.numeric(input$year_switch),
                           plot_title)
