@@ -42,7 +42,7 @@ Better to take out the lake in the map?
 - [x] write ReadMe
 - [x] load data in better place - probably not ideal but seems to work
 - [x] make year selector choices dependent on data - probably not ideal but seems to work
-- [ ] correct sorting of 'stadtkreise' - needs a javascript function!!
+- [x] correct sorting of 'stadtkreise' - needs a javascript function!!
 - [x] make language consistently English
 - [x] adjust colors of map and bars
 - [x] make a navbar page with ambulance, fire services
@@ -73,6 +73,8 @@ put_data_in_table(ambulance, 2020)
 using factors probably won't work either as [this issue](https://github.com/glin/reactable/issues/202) is still open
 
 the [examples](https://glin.github.io/reactable/articles/custom-filtering.html#regular-expression-pattern-filtering) say I can add a custom filtering function but it needs to be in javascript...--> ask course instructors
+
+works with separate function, similar to the bar chart one
 
 # known issues
 

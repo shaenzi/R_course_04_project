@@ -62,6 +62,11 @@ bar_chart <- function(label, width = "100%", height = "1rem", fill = "#0d0599", 
   htmltools::div(style = list(display = "flex", alignItems = "center"), label, chart)
 }
 
+kreis_labels <- function(value) {
+  label <- paste("Kreis", as.character(value))
+  htmltools::div(style=list(display = "flex"), label)
+}
+
 #' put_data_in_table
 #'
 #' @description make reactable of ambulance/fire service response times
@@ -85,11 +90,9 @@ put_data_in_table <- function(response_times, year) {
       stadtkreis = reactable::colDef(
         name = "urban district",
         minWidth = 60,
-        filterMethod = htmlwidgets::JS("function(rows, columnId, filterValue) {
-        return rows.filter(function(row) {
-          return Number(row.values[columnId].slice(-2))
-        })
-      }")),
+        cell = function(value){
+          kreis_labels(value)
+        }),
       prozent_einsaetze_bis_10min = reactable::colDef(
         name = "proportion of response times below 10min",
         cell = function(value) {
