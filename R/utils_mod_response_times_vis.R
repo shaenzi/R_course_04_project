@@ -27,7 +27,7 @@ plot_response_times <- function(response_times, year, title) {
   # always need to join with sf as main tibble, otherwise cannot plot
   zurich_kreise %>%
     sf::st_as_sf() %>%
-    dplyr::left_join(response_times, by = c("bezeichnun" = "stadtkreis")) %>%
+    dplyr::left_join(response_times, by = c("bezeichnun" = "stadtkreis_string")) %>%
     dplyr::mutate(quantiles = cut(prozent_einsaetze_bis_10min,
                                   breaks = quantile_vec,
                                   labels = labels,
@@ -62,6 +62,13 @@ bar_chart <- function(label, width = "100%", height = "1rem", fill = "#0d0599", 
   htmltools::div(style = list(display = "flex", alignItems = "center"), label, chart)
 }
 
+#' kreis_labels
+#'
+#' @param value
+#'
+#' @return html div with the "Kreis X" when x is the value
+#' @noRd
+#'
 kreis_labels <- function(value) {
   label <- paste("Kreis", as.character(value))
   htmltools::div(style=list(display = "flex"), label)

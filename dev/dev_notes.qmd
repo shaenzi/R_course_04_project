@@ -49,7 +49,9 @@ Better to take out the lake in the map?
 - [ ] add tabPanel with About Page
 - [ ] improve header alignment
 - [ ] make map interactive, see [plotly documentation](https://plotly.com/r/choropleth-maps/)
-- [ ] add locations of ambulance/fire service bases to the map
+- [ ] add locations of ambulance/fire service bases to the map 
+- [ ] deploy (automatically) to shinyapps.io
+- [ ] make the repo public
 - write tests
   - [ ] for data reading - make sure I have the columns in the data that I need in the plot and table
   - [ ] for plotting - okish
@@ -58,6 +60,16 @@ Better to take out the lake in the map?
   - [ ] play around with the date and come up with a good plot
   - [ ] make a new module for this (is it interactive?)
   - [ ] decide on and adjust overall UI
+  
+## finding all dependencies
+apparently I need the markdown package to include markdown (about page). this could not be automatically detected with `attachment::att_amend_desc()`, so I ran
+
+```{r eval=FALSE}
+usethis::use_package( "markdown" ) # To call each time you need a new package
+usethis::use_pipe()
+```
+
+The pipe was also an issue. What is the correct way of dealing with dependencies?
   
 ## filtering
 

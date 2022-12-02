@@ -23,8 +23,9 @@ app_ui <- function(request) {
       tabPanel("Fire Services",
         mod_response_times_ui(id = "fire_service",
                               title = "Fire service response times",
-                              choices = fire_service_choices)
-      )
+                              choices = fire_service_choices)),
+      tabPanel("About",
+               includeMarkdown(system.file("app/www/about.md", package = "c4app")))
     )
   )
 }

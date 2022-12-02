@@ -33,11 +33,13 @@ get_zurich_data <- function() {
   ambulances <- get_csv_from_link("https://data.stadt-zuerich.ch/dataset/sid_srz_hilfsfirsten_rd/download/hilfsfrist_rd.csv") %>%
     dplyr::mutate(hilfsfrist_mittelwert = lubridate::hms(hilfsfrist_mittelwert)) %>%
     dplyr::mutate(hilfsfrist_sec = lubridate::period_to_seconds(hilfsfrist_mittelwert)) %>%
-    dplyr::mutate(stadtkreis = as.numeric(stringr::str_extract(stadtkreis, "[:digit:]+")))
+    dplyr::mutate(stadtkreis_string = stadtkreis,
+                  stadtkreis = as.numeric(stringr::str_extract(stadtkreis, "[:digit:]+")))
   fire_service <- get_csv_from_link("https://data.stadt-zuerich.ch/dataset/sid_srz_ausrueckzeiten_fw/download/ausrueckzeit_fw.csv") %>%
     dplyr::mutate(hilfsfrist_mittelwert = lubridate::hms(ausrueckzeit_mittelwert)) %>%
     dplyr::mutate(hilfsfrist_sec = lubridate::period_to_seconds(hilfsfrist_mittelwert)) %>%
-    dplyr::mutate(stadtkreis = as.numeric(stringr::str_extract(stadtkreis, "[:digit:]+")))
+    dplyr::mutate(stadtkreis_string = stadtkreis,
+                  stadtkreis = as.numeric(stringr::str_extract(stadtkreis, "[:digit:]+")))
   print("done getting the data")
 
   return(list(#"emergency_calls" = emergency_calls,
