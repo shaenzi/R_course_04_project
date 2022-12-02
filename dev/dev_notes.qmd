@@ -32,6 +32,7 @@ format:
 it would be nice to add the locations from where the emergency services start?
 see [ambulances](https://www.stadt-zuerich.ch/pd/de/index/schutz_u_rettung_zuerich/sanitaet/so_arbeiten_wir/rettungsdienstwachen.html) and [fire services](https://www.stadt-zuerich.ch/pd/de/index/schutz_u_rettung_zuerich/feuerwehr/wir_ueber_uns/einsatzgebiet.html)
 would have to manually parse/add those 6 addresses to a small dataset
+some of the bases are outside the city itself... never mind.
 
 ## Lake
 
@@ -46,11 +47,12 @@ Better to take out the lake in the map?
 - [x] make language consistently English
 - [x] adjust colors of map and bars
 - [x] make a navbar page with ambulance, fire services
-- [ ] add tabPanel with About Page
-- [ ] improve header alignment
+- [x] add tabPanel with About Page
+- [ ] improve header alignment - needs help
 - [ ] make map interactive, see [plotly documentation](https://plotly.com/r/choropleth-maps/)
-- [ ] add locations of ambulance/fire service bases to the map 
+- [ ] add locations of ambulance/fire service bases to the map- lower priority
 - [ ] deploy (automatically) to shinyapps.io
+- [ ] update readme
 - [ ] make the repo public
 - write tests
   - [ ] for data reading - make sure I have the columns in the data that I need in the plot and table

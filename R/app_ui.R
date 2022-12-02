@@ -7,6 +7,7 @@
 app_ui <- function(request) {
   ambulance_choices <- unique(data_vector[["ambulance"]]$jahr)
   fire_service_choices <- unique(data_vector[["fire_service"]]$jahr)
+  notes_fire_service = "Note that the north of the city is serviced by the airport's fire service."
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
@@ -23,7 +24,8 @@ app_ui <- function(request) {
       tabPanel("Fire Services",
         mod_response_times_ui(id = "fire_service",
                               title = "Fire service response times",
-                              choices = fire_service_choices)),
+                              choices = fire_service_choices,
+                              notes = notes_fire_service)),
       tabPanel("About",
                includeMarkdown(system.file("app/www/about.md", package = "c4app")))
     )
