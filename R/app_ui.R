@@ -16,7 +16,9 @@ app_ui <- function(request) {
     navbarPage(
       theme = bslib::bs_theme(version = 4, bootswatch = "sandstone"), # or sandstone
       h1("How quickly does help reach you?"),
-      header = p("Response times of the emergency services in the city of Zurich."),
+      header = column(
+        12,
+        "Response times of the emergency services in the city of Zurich."),
       tabPanel("Ambulance",
                mod_response_times_ui(id = "ambulance",
                                      title = "Ambulance response times",

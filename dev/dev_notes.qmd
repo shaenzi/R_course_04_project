@@ -48,7 +48,7 @@ Better to take out the lake in the map?
 - [x] adjust colors of map and bars
 - [x] make a navbar page with ambulance, fire services
 - [x] add tabPanel with About Page
-- [ ] improve header alignment - needs help
+- [ ] improve header alignment - needs help; most promising [post](https://groups.google.com/g/shiny-discuss/c/DVF2YQeYfiE) - but from 2015 and nothing changed...
 - [ ] make map interactive, see [plotly documentation](https://plotly.com/r/choropleth-maps/) - does not work with quantiles??
 - [ ] add locations of ambulance/fire service bases to the map- lower priority
 - [ ] deploy (automatically) to shinyapps.io
