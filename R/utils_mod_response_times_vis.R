@@ -41,9 +41,9 @@ plot_response_times <- function(response_times, year, title) {
     ggplot2::labs(title = title) +
     ggplot2::theme_void() +
     ggplot2::theme(legend.position="bottom",
-                   legend.title=element_blank())
+                   legend.title=ggplot2::element_blank())
   plotly::ggplotly(p) %>%
-    style(hoveron = "fill")
+    plotly::style(hoveron = "fill")
 }
 
 
