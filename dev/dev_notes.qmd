@@ -27,13 +27,6 @@ format:
 
 # Content considerations
 
-## Locations
-
-it would be nice to add the locations from where the emergency services start?
-see [ambulances](https://www.stadt-zuerich.ch/pd/de/index/schutz_u_rettung_zuerich/sanitaet/so_arbeiten_wir/rettungsdienstwachen.html) and [fire services](https://www.stadt-zuerich.ch/pd/de/index/schutz_u_rettung_zuerich/feuerwehr/wir_ueber_uns/einsatzgebiet.html)
-would have to manually parse/add those 6 addresses to a small dataset
-some of the bases are outside the city itself... never mind.
-
 ## Lake
 
 Better to take out the lake in the map?
@@ -49,19 +42,14 @@ Better to take out the lake in the map?
 - [x] make a navbar page with ambulance, fire services
 - [x] add tabPanel with About Page
 - [ ] improve header alignment - needs help; most promising [post](https://groups.google.com/g/shiny-discuss/c/DVF2YQeYfiE) - but from 2015 and nothing changed...
-- [ ] make map interactive, see [plotly documentation](https://plotly.com/r/choropleth-maps/) - does not work with quantiles??
-- [ ] add locations of ambulance/fire service bases to the map- lower priority
+- [ ] try horizontal radio buttons
+- [ ] lake?
+- [ ] make map interactive, see [plotly documentation](https://plotly.com/r/choropleth-maps/) - does not work with quantiles?? Giulia recommends tmap/leaflet
 - [ ] deploy (automatically) to shinyapps.io
 - [ ] update readme
 - [ ] make the repo public
 - write tests
   - [ ] for data reading - make sure I have the columns in the data that I need in the plot and table
-  - [ ] for plotting - okish
-  - [ ] for the module - okish
-- emergency calls - low priority
-  - [ ] play around with the date and come up with a good plot
-  - [ ] make a new module for this (is it interactive?)
-  - [ ] decide on and adjust overall UI
   
 ## finding all dependencies
 apparently I need the markdown package to include markdown (about page). this could not be automatically detected with `attachment::att_amend_desc()`, so I ran
@@ -93,3 +81,17 @@ works with separate function, similar to the bar chart one
 # known issues
 
 - data loading function is called directly where it is defined in the utils. pro: this makes the data available to the ui and the server and means this is run before the app is started. con: does not feel like a clean way of doing things?
+
+# won't do
+
+## Locations
+
+it would be nice to add the locations from where the emergency services start?
+see [ambulances](https://www.stadt-zuerich.ch/pd/de/index/schutz_u_rettung_zuerich/sanitaet/so_arbeiten_wir/rettungsdienstwachen.html) and [fire services](https://www.stadt-zuerich.ch/pd/de/index/schutz_u_rettung_zuerich/feuerwehr/wir_ueber_uns/einsatzgebiet.html)
+would have to manually parse/add those 6 addresses to a small dataset
+some of the bases are outside the city itself... never mind.
+
+- emergency calls - low priority
+  - [ ] play around with the date and come up with a good plot
+  - [ ] make a new module for this (is it interactive?)
+  - [ ] decide on and adjust overall UI
