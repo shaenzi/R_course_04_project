@@ -17,7 +17,7 @@
 ## Amend DESCRIPTION with dependencies read from package code parsing
 ## install.package('attachment') # if needed.
 attachment::att_amend_desc()
-usethis::use_package( "markdown" ) # To call each time you need a new package
+usethis::use_package("markdown") # needed separately as 'includeMarkdown' does not trigger the dependency to markdown
 usethis::use_pipe()
 
 ## Add modules ----

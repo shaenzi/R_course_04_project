@@ -38,7 +38,8 @@ plot_response_times <- function(response_times, year, title) {
     #ggplot2::scale_fill_viridis_d(option = "E", name = NULL) +
     ggplot2::scale_fill_brewer(palette = "OrRd", direction = -1) +
     #ggplot2::scale_fill_brewer(palette = "RdBu") +
-    ggplot2::labs(title = title) +
+    ggplot2::labs(title = title,
+                  fill = "") +
     ggplot2::theme_void() +
     ggplot2::theme(legend.position="bottom")
 }
