@@ -36,7 +36,9 @@ plot_response_times <- function(response_times, year, title) {
                      by = c("bezeichnun" = "stadtkreis_string")) %>%
     dplyr::arrange(stadtkreis) %>%
     leaflet::leaflet() %>%
+    #leaflet::fitBounds(8.45, 47.33, 8.55, 47.43) %>%
     leaflet::setView(8.54, 47.377, 12) %>%
+    #leaflet::addTiles() %>%
     leaflet::addPolygons(
       fillColor = ~pal(prozent_einsaetze_bis_10min),
       weight = 2,

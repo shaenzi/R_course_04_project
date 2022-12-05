@@ -30,7 +30,8 @@ zurich_kreise %>%
                    by = c("bezeichnun" = "stadtkreis_string")) %>%
   dplyr::arrange(stadtkreis) %>%
   leaflet::leaflet() %>%
-  leaflet::setView(8.54, 47.377, 12) %>%
+  leaflet::fitBounds(8.53, 47.32, 8.54, 47.43) %>%
+  #leaflet::setView(8.54, 47.377, 12) %>%
   #leaflet::addTiles() %>%
   leaflet::addPolygons(
     fillColor = ~pal(prozent_einsaetze_bis_10min),
