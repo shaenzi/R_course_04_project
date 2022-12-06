@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sara">
-<meta name="dcterms.date" content="2022-11-28">
+<meta name="dcterms.date" content="2022-12-06">
 
 <title>Development notes</title>
 <style>
@@ -2518,7 +2518,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 28, 2022</p>
+      <p class="date">December 6, 2022</p>
     </div>
   </div>
     
@@ -2531,29 +2531,16 @@ vertical-align: -.125em;
 <h1>Technical stuff</h1>
 <ul>
 <li>where should I run the data loading?</li>
-<li>where can I load the data so that it is also accessible to the ui? (needed for sensible input choices)</li>
-<li>how can/should I test the module?</li>
-<li>how can I add an about page? from html? from Rmarkdown? from Markdown?</li>
 </ul>
 </section>
 <section id="ui-considerations" class="level1">
 <h1>UI considerations</h1>
 <ul>
-<li>make the module in a kind of card?</li>
-<li>general layout? add text/about/possibly another plot</li>
-<li>the map legend is tiny</li>
-<li>not sure about the table <a href="https://glin.github.io/reactable/articles/examples.html#column-resizing">widths</a>, column names, their alignment etc.</li>
-<li>general low-key effort to improve the table?</li>
-<li>what kind of input? drop down, radio button, …</li>
 <li>mobile?</li>
 </ul>
 </section>
 <section id="content-considerations" class="level1">
 <h1>Content considerations</h1>
-<section id="locations" class="level2">
-<h2 class="anchored" data-anchor-id="locations">Locations</h2>
-<p>it would be nice to add the locations from where the emergency services start? see <a href="https://www.stadt-zuerich.ch/pd/de/index/schutz_u_rettung_zuerich/sanitaet/so_arbeiten_wir/rettungsdienstwachen.html">ambulances</a> and <a href="https://www.stadt-zuerich.ch/pd/de/index/schutz_u_rettung_zuerich/feuerwehr/wir_ueber_uns/einsatzgebiet.html">fire services</a> would have to manually parse/add those 6 addresses to a small dataset</p>
-</section>
 <section id="lake" class="level2">
 <h2 class="anchored" data-anchor-id="lake">Lake</h2>
 <p>Better to take out the lake in the map?</p>
@@ -2568,7 +2555,7 @@ write ReadMe</li>
 load data in better place - probably not ideal but seems to work</li>
 <li><input type="checkbox" disabled checked>
 make year selector choices dependent on data - probably not ideal but seems to work</li>
-<li><input type="checkbox" disabled>
+<li><input type="checkbox" disabled checked>
 correct sorting of ‘stadtkreise’ - needs a javascript function!!</li>
 <li><input type="checkbox" disabled checked>
 make language consistently English</li>
@@ -2576,23 +2563,64 @@ make language consistently English</li>
 adjust colors of map and bars</li>
 <li><input type="checkbox" disabled checked>
 make a navbar page with ambulance, fire services</li>
-<li><input type="checkbox" disabled>
+<li><input type="checkbox" disabled checked>
 add tabPanel with About Page</li>
 <li><input type="checkbox" disabled>
-improve header alignment</li>
+improve header alignment - needs help; most promising <a href="https://groups.google.com/g/shiny-discuss/c/DVF2YQeYfiE">post</a> - but from 2015 and nothing changed…</li>
 <li><input type="checkbox" disabled>
-make map interactive, see <a href="https://plotly.com/r/choropleth-maps/">plotly documentation</a></li>
+try horizontal radio buttons</li>
 <li><input type="checkbox" disabled>
-add locations of ambulance/fire service bases to the map</li>
+lake?</li>
+<li><input type="checkbox" disabled checked>
+make map interactive</li>
+<li><input type="checkbox" disabled>
+deploy (automatically) to shinyapps.io</li>
+<li><input type="checkbox" disabled>
+update readme</li>
+<li><input type="checkbox" disabled>
+make the repo public</li>
 <li>write tests
 <ul class="task-list">
 <li><input type="checkbox" disabled>
 for data reading - make sure I have the columns in the data that I need in the plot and table</li>
-<li><input type="checkbox" disabled>
-for plotting - okish</li>
-<li><input type="checkbox" disabled>
-for the module - okish</li>
 </ul></li>
+</ul>
+<section id="finding-all-dependencies" class="level2">
+<h2 class="anchored" data-anchor-id="finding-all-dependencies">finding all dependencies</h2>
+<p>apparently I need the markdown package to include markdown (about page). this could not be automatically detected with <code>attachment::att_amend_desc()</code>, so I ran</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_package</span>( <span class="st">&quot;markdown&quot;</span> ) <span class="co"># To call each time you need a new package</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_pipe</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The pipe was also an issue. What is the correct way of dealing with dependencies?</p>
+</section>
+<section id="filtering" class="level2">
+<h2 class="anchored" data-anchor-id="filtering">filtering</h2>
+<p>using a named vector as the ‘stadtkreis’ column does not work, reactable does not show the label, it still shows the value</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>stadtkreise_num <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(stringr<span class="sc">::</span><span class="fu">str_extract</span>(ambulance<span class="sc">$</span>stadtkreis, <span class="st">&quot;[:digit:]+&quot;</span>))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(stadtkreise_num) <span class="ot">&lt;-</span> ambulance<span class="sc">$</span>stadtkreis</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ambulance<span class="sc">$</span>stadtkreis <span class="ot">&lt;-</span> stadtkreise_num</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">put_data_in_table</span>(ambulance, <span class="dv">2020</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># filtering won&#39;t work</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>using factors probably won’t work either as <a href="https://github.com/glin/reactable/issues/202">this issue</a> is still open</p>
+<p>the <a href="https://glin.github.io/reactable/articles/custom-filtering.html#regular-expression-pattern-filtering">examples</a> say I can add a custom filtering function but it needs to be in javascript…–&gt; ask course instructors</p>
+<p>works with separate function, similar to the bar chart one</p>
+</section>
+</section>
+<section id="known-issues" class="level1">
+<h1>known issues</h1>
+<ul>
+<li>data loading function is called directly where it is defined in the utils. pro: this makes the data available to the ui and the server and means this is run before the app is started. con: does not feel like a clean way of doing things?</li>
+</ul>
+</section>
+<section id="wont-do" class="level1">
+<h1>won’t do</h1>
+<section id="locations" class="level2">
+<h2 class="anchored" data-anchor-id="locations">Locations</h2>
+<p>it would be nice to add the locations from where the emergency services start? see <a href="https://www.stadt-zuerich.ch/pd/de/index/schutz_u_rettung_zuerich/sanitaet/so_arbeiten_wir/rettungsdienstwachen.html">ambulances</a> and <a href="https://www.stadt-zuerich.ch/pd/de/index/schutz_u_rettung_zuerich/feuerwehr/wir_ueber_uns/einsatzgebiet.html">fire services</a> would have to manually parse/add those 6 addresses to a small dataset some of the bases are outside the city itself… never mind.</p>
+<ul>
 <li>emergency calls - low priority
 <ul class="task-list">
 <li><input type="checkbox" disabled>
@@ -2603,25 +2631,7 @@ make a new module for this (is it interactive?)</li>
 decide on and adjust overall UI</li>
 </ul></li>
 </ul>
-<section id="filtering" class="level2">
-<h2 class="anchored" data-anchor-id="filtering">filtering</h2>
-<p>using a named vector as the ‘stadtkreis’ column does not work, reactable does not show the label, it still shows the value</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>stadtkreise_num <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(stringr<span class="sc">::</span><span class="fu">str_extract</span>(ambulance<span class="sc">$</span>stadtkreis, <span class="st">&quot;[:digit:]+&quot;</span>))</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(stadtkreise_num) <span class="ot">&lt;-</span> ambulance<span class="sc">$</span>stadtkreis</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ambulance<span class="sc">$</span>stadtkreis <span class="ot">&lt;-</span> stadtkreise_num</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">put_data_in_table</span>(ambulance, <span class="dv">2020</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># filtering won&#39;t work</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>using factors probably won’t work either as <a href="https://github.com/glin/reactable/issues/202">this issue</a> is still open</p>
-<p>the <a href="https://glin.github.io/reactable/articles/custom-filtering.html#regular-expression-pattern-filtering">examples</a> say I can add a custom filtering function but it needs to be in javascript…–&gt; ask course instructors</p>
 </section>
-</section>
-<section id="known-issues" class="level1">
-<h1>known issues</h1>
-<ul>
-<li>data loading function is called directly where it is defined in the utils. pro: this makes the data available to the ui and the server and means this is run before the app is started. con: does not feel like a clean way of doing things?</li>
-</ul>
 </section>
 
 </main>

@@ -128,7 +128,7 @@ put_data_in_table <- function(response_times, year) {
         name = "mean response time [min:sec]",
         cell = function(value) {
           width <- paste0(value *100 / max_hilfsfrist, "%")
-          # hacky way to specify the hours and minutes to make sure there are always two digits each
+          # specify the hours and minutes to make sure there are always two digits each
           value <- format(Sys.Date() + lubridate::seconds_to_period(value), "%M:%S")
           bar_chart(value, width = width)
         }
@@ -136,8 +136,4 @@ put_data_in_table <- function(response_times, year) {
     ),
     pagination = FALSE,
     highlight = TRUE)
-
-  # issue. sorting of char stadtkreise gives 1, 10, 11, 12, 2
-
-  # Todo: better font, better colors, better column widths
 }
