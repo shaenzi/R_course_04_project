@@ -46,7 +46,6 @@ Better to take out the lake in the map?
 still to improve:
 
 - map scale
-- map background
   
 ## finding all dependencies
 apparently I need the markdown package to include markdown (about page). this could not be automatically detected with `attachment::att_amend_desc()`, so I ran

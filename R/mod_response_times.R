@@ -11,13 +11,20 @@
 mod_response_times_ui <- function(id, title, choices, notes=""){
   ns <- NS(id)
   fluidPage(
+    tags$head(
+      # Note the wrapping of the string in HTML()
+      tags$style(HTML("
+      .leaflet-container {
+    background: #FFF;
+      }"))
+    ),
     h2(title),
     fluidRow(column(6,
                     selectInput(ns("year_switch"),
                                 label = "choose a year",
                                 choices = choices,
                                 selected = choices[1]),
-                    leafletOutput(ns("map"))),
+                    leaflet::leafletOutput(ns("map"))),
              column(6,
                     reactable::reactableOutput(ns("table")))
              # Todo add input for year selection
@@ -35,7 +42,7 @@ mod_response_times_server <- function(id, response_times, plot_title){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    output$map <- renderLeaflet({
+    output$map <- leaflet::renderLeaflet({
       plot_response_times(response_times,
                           as.numeric(input$year_switch),
                           plot_title)
