@@ -7,41 +7,57 @@
 #' @noRd
 plot_response_times <- function(response_times, year, title) {
   response_times <- response_times %>%
-    dplyr::filter(jahr == year)
+    dplyr::filter(jahr == year) %>%
+    dplyr::arrange(stadtkreis)
 
   # prepare stuff for plotting: labels, quantiles etc.
   quantile_vec <- response_times %>%
     dplyr::pull(prozent_einsaetze_bis_10min) %>%
     quantile(probs = seq(0, 1, 0.2), na.rm = TRUE)
 
-  labels <- dplyr::tibble(
-    lab1 = quantile_vec,
-    lab2 = c(quantile_vec[2:length(quantile_vec)], NA)) %>%
-    dplyr::slice(1:dplyr::n() - 1) %>% # We remove the last row, since it has no meaning
-    dplyr::mutate_all(round, digits = 0) %>% # We remove digits after the 0
-    dplyr::mutate(labs = paste(lab1, lab2, sep = " - ")) %>%
-    dplyr::mutate(labs = paste0(labs, "%")) %>%
-    dplyr::pull(labs)
+  pal <- leaflet::colorBin("YlOrRd",
+                           domain = response_times$prozent_einsaetze_bis_10min,
+                           bins = quantile_vec,
+                           reverse = TRUE)
+
+  labels <- sprintf(
+    "<strong>%s</strong><br/>%g ",
+    response_times$stadtkreis_string, response_times$prozent_einsaetze_bis_10min
+  ) %>% lapply(htmltools::HTML)
+
 
   # join the two tibbles and plot as a map
   # always need to join with sf as main tibble, otherwise cannot plot
+  # need to sort after joining otherwise labels are wrong
   zurich_kreise %>%
     sf::st_as_sf() %>%
-    dplyr::left_join(response_times, by = c("bezeichnun" = "stadtkreis_string")) %>%
-    dplyr::mutate(quantiles = cut(prozent_einsaetze_bis_10min,
-                                  breaks = quantile_vec,
-                                  labels = labels,
-                                  include.lowest = TRUE)) %>%
-    ggplot2::ggplot() +
-    ggplot2::geom_sf(ggplot2::aes(fill = quantiles),
-                     color = "white") +
-    #ggplot2::scale_fill_viridis_d(option = "E", name = NULL) +
-    ggplot2::scale_fill_brewer(palette = "OrRd", direction = -1) +
-    #ggplot2::scale_fill_brewer(palette = "RdBu") +
-    ggplot2::labs(title = title,
-                  fill = "") +
-    ggplot2::theme_void() +
-    ggplot2::theme(legend.position="bottom")
+    sf::st_transform("+proj=longlat +datum=WGS84 +no_defs") %>%
+    dplyr::left_join(response_times,
+                     by = c("bezeichnun" = "stadtkreis_string")) %>%
+    dplyr::arrange(stadtkreis) %>%
+    leaflet::leaflet(options = leaflet::leafletOptions(zoomSnap = 0.5,
+                                                       zoomControl = FALSE)) %>%
+    leaflet::setView(8.542, 47.373, 11.5) %>%
+    leaflet::addPolygons(
+      fillColor = ~pal(prozent_einsaetze_bis_10min),
+      weight = 2,
+      opacity = 1,
+      color = "white",
+      fillOpacity = 0.7,
+      label = labels,
+      labelOptions = leaflet::labelOptions(
+        style = list("font-weight" = "normal", padding = "3px 8px"),
+        textsize = "15px",
+        direction = "auto"),
+      highlightOptions = leaflet::highlightOptions(
+        weight = 5,
+        color = "#666",
+        fillOpacity = 0.7,
+        bringToFront = TRUE),
+    ) %>%
+    leaflet::addLegend(pal = pal, values = ~density, opacity = 0.7, title = NULL,
+                       position = "bottomright",
+                       labFormat = leaflet::labelFormat(suffix = "%", digits = 0))
 }
 
 

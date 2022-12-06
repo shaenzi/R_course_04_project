@@ -10,18 +10,9 @@ format:
 # Technical stuff
 
 - where should I run the data loading?
-- where can I load the data so that it is also accessible to the ui? (needed for sensible input choices)
-- how can/should I test the module?
-- how can I add an about page? from html? from Rmarkdown? from Markdown?
 
 # UI considerations
 
-- make the module in a kind of card?
-- general layout? add text/about/possibly another plot
-- the map legend is tiny
-- not sure about the table [widths](https://glin.github.io/reactable/articles/examples.html#column-resizing), column names, their alignment etc.
-- general low-key effort to improve the table?
-- what kind of input? drop down, radio button, ...
 - mobile? 
 
 
@@ -44,12 +35,13 @@ Better to take out the lake in the map?
 - [ ] improve header alignment - needs help; most promising [post](https://groups.google.com/g/shiny-discuss/c/DVF2YQeYfiE) - but from 2015 and nothing changed...
 - [ ] try horizontal radio buttons
 - [ ] lake?
-- [ ] make map interactive, see [plotly documentation](https://plotly.com/r/choropleth-maps/) - does not work with quantiles?? Giulia recommends tmap/leaflet
+- [x] make map interactive
 - [ ] deploy (automatically) to shinyapps.io
 - [ ] update readme
 - [ ] make the repo public
 - write tests
   - [ ] for data reading - make sure I have the columns in the data that I need in the plot and table
+
   
 ## finding all dependencies
 apparently I need the markdown package to include markdown (about page). this could not be automatically detected with `attachment::att_amend_desc()`, so I ran
