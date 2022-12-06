@@ -35,17 +35,13 @@ Better to take out the lake in the map?
 - [ ] improve header alignment - needs help; most promising [post](https://groups.google.com/g/shiny-discuss/c/DVF2YQeYfiE) - but from 2015 and nothing changed...
 - [ ] try horizontal radio buttons
 - [ ] lake?
-- [ ] make map interactive, see [plotly documentation](https://plotly.com/r/choropleth-maps/) - does not work with quantiles?? Giulia recommends tmap/leaflet
+- [x] make map interactive
 - [ ] deploy (automatically) to shinyapps.io
 - [ ] update readme
 - [ ] make the repo public
 - write tests
   - [ ] for data reading - make sure I have the columns in the data that I need in the plot and table
-  
-## leaflet
-still to improve:
 
-- map scale
   
 ## finding all dependencies
 apparently I need the markdown package to include markdown (about page). this could not be automatically detected with `attachment::att_amend_desc()`, so I ran
