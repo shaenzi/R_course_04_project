@@ -20,10 +20,11 @@ mod_response_times_ui <- function(id, title, choices, notes=""){
     ),
     h2(title),
     fluidRow(column(6,
-                    selectInput(ns("year_switch"),
+                    radioButtons(ns("year_switch"),
                                 label = "choose a year",
                                 choices = choices,
-                                selected = choices[1]),
+                                selected = choices[1],
+                                inline = TRUE),
                     leaflet::leafletOutput(ns("map"))),
              column(6,
                     reactable::reactableOutput(ns("table")))
