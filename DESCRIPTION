@@ -21,6 +21,7 @@ Imports:
     lubridate,
     magrittr,
     markdown,
+    pkgload,
     reactable,
     readr,
     sf,
