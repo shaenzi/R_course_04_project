@@ -10,4 +10,4 @@ COPY inst inst
 COPY data data
 COPY .Rbuildignore .Rbuildignore
 COPY dev/deploy.R dev/deploy.R
-CMD Rscript deploy.R
+CMD Rscript dev/deploy.R
