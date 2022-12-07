@@ -18,7 +18,6 @@ test_that("get error if no data at that link", {
 
 test_that("get list of tibbles with more than 1 entry", {
   expect_type(get_zurich_data(), "list")
-  expect_s3_class(get_zurich_data(), "list")
   expect_gt(length(get_zurich_data()), 1)
   expect_s3_class(get_zurich_data()[[1]], class(dplyr::tibble()))
 })
