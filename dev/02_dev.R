@@ -18,7 +18,7 @@
 ## install.package('attachment') # if needed.
 attachment::att_amend_desc()
 usethis::use_package("markdown") # needed separately as 'includeMarkdown' does not trigger the dependency to markdown
-usethis::use_pipe()
+usethis::use_pipe(export = FALSE)
 
 ## Add modules ----
 ## Create a module infrastructure in R/
