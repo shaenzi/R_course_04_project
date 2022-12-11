@@ -46,11 +46,13 @@ mod_response_times_server <- function(id, response_times, plot_title){
       plot_response_times(response_times,
                           as.numeric(input$year_switch),
                           plot_title)
-    })
+    }) %>%
+      bindCache(input$year_switch)
 
     output$table <- reactable::renderReactable({
       put_data_in_table(response_times, as.numeric(input$year_switch))
-    })
+    }) %>%
+      bindCache(input$year_switch)
 
   })
 }

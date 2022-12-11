@@ -36,9 +36,12 @@ Better to take out the lake in the map?
 - [x] try horizontal radio buttons
 - [ ] lake?
 - [x] make map interactive
-- [ ] deploy (automatically) to shinyapps.io
+- [x] deploy (automatically) to shinyapps.io
 - [ ] update readme
 - [ ] make the repo public
+- [ ] try without exporting the pipe
+- [x] try with caching of plots
+- [x] add hint to user that something is being plotted - could use shinycssloader, but it is kind of overkill
 - write tests
   - [ ] for data reading - make sure I have the columns in the data that I need in the plot and table
 
