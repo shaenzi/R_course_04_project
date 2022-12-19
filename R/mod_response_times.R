@@ -18,6 +18,7 @@ mod_response_times_ui <- function(id, title, choices, notes=""){
     background: #FFF;
       }"))
     ),
+    p("Response times of the emergency services in the city of Zurich."),
     h2(title),
     fluidRow(column(6,
                     radioButtons(ns("year_switch"),
