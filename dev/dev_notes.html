@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sara">
-<meta name="dcterms.date" content="2022-12-06">
+<meta name="dcterms.date" content="2022-12-24">
 
 <title>Development notes</title>
 <style>
@@ -2518,7 +2518,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 6, 2022</p>
+      <p class="date">December 24, 2022</p>
     </div>
   </div>
     
@@ -2530,25 +2530,29 @@ vertical-align: -.125em;
 <section id="technical-stuff" class="level1">
 <h1>Technical stuff</h1>
 <ul>
-<li>where should I run the data loading?</li>
-</ul>
-</section>
-<section id="ui-considerations" class="level1">
-<h1>UI considerations</h1>
-<ul>
-<li>mobile?</li>
+<li>where should I run the data loading? –&gt; asked question on stackoverflow</li>
+<li>shiny module does not work with bind cache if I have several instances? –&gt; asked question on stackoverflow</li>
 </ul>
 </section>
 <section id="content-considerations" class="level1">
 <h1>Content considerations</h1>
 <section id="lake" class="level2">
 <h2 class="anchored" data-anchor-id="lake">Lake</h2>
-<p>Better to take out the lake in the map?</p>
+<p>Better to take out the lake in the map? postponed.</p>
+</section>
+<section id="header-alignment" class="level2">
+<h2 class="anchored" data-anchor-id="header-alignment">Header alignment</h2>
+<p>only seems aligned if the text is within a module. Currently (slightly hacky) it is hardcoded within the module. I could also have an extra module just for the title. same problem without an answer from 7y ago <a href="https://groups.google.com/g/shiny-discuss/c/DVF2YQeYfiE">post</a></p>
+<p>things that do not lead to the same alignment:</p>
+<ul>
+<li><code>p</code> or <code>fluidRow</code> within the app’s main ui</li>
+<li><code>header = column(12, &quot;Response times of the emergency services in the city of Zurich.&quot;)</code> within the navbar page of the app’s main ui; it is better/more to the right, but still not aligned with the content of the module</li>
+</ul>
 </section>
 </section>
 <section id="concrete-todos" class="level1">
 <h1>Concrete todos</h1>
-<ul>
+<ul class="task-list">
 <li><input type="checkbox" disabled checked>
 write ReadMe</li>
 <li><input type="checkbox" disabled checked>
@@ -2565,25 +2569,22 @@ adjust colors of map and bars</li>
 make a navbar page with ambulance, fire services</li>
 <li><input type="checkbox" disabled checked>
 add tabPanel with About Page</li>
-<li><input type="checkbox" disabled>
-improve header alignment - needs help; most promising <a href="https://groups.google.com/g/shiny-discuss/c/DVF2YQeYfiE">post</a> - but from 2015 and nothing changed…</li>
-<li><input type="checkbox" disabled>
+<li><input type="checkbox" disabled checked>
 try horizontal radio buttons</li>
-<li><input type="checkbox" disabled>
-lake?</li>
 <li><input type="checkbox" disabled checked>
 make map interactive</li>
-<li><input type="checkbox" disabled>
+<li><input type="checkbox" disabled checked>
 deploy (automatically) to shinyapps.io</li>
-<li><input type="checkbox" disabled>
+<li><input type="checkbox" disabled checked>
 update readme</li>
-<li><input type="checkbox" disabled>
+<li><input type="checkbox" disabled checked>
 make the repo public</li>
-<li>write tests
-<ul class="task-list">
-<li><input type="checkbox" disabled>
-for data reading - make sure I have the columns in the data that I need in the plot and table</li>
-</ul></li>
+<li><input type="checkbox" disabled checked>
+try without exporting the pipe - works too. next time use <code>export = FALSE</code></li>
+<li><input type="checkbox" disabled checked>
+try with caching of plots</li>
+<li><input type="checkbox" disabled checked>
+add hint to user that something is being plotted - could use shinycssloader, but it is kind of overkill</li>
 </ul>
 <section id="finding-all-dependencies" class="level2">
 <h2 class="anchored" data-anchor-id="finding-all-dependencies">finding all dependencies</h2>
@@ -2592,7 +2593,7 @@ for data reading - make sure I have the columns in the data that I need in the p
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_package</span>( <span class="st">&quot;markdown&quot;</span> ) <span class="co"># To call each time you need a new package</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_pipe</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The pipe was also an issue. What is the correct way of dealing with dependencies?</p>
+<p>The pipe was also an issue…</p>
 </section>
 <section id="filtering" class="level2">
 <h2 class="anchored" data-anchor-id="filtering">filtering</h2>
@@ -2614,24 +2615,6 @@ for data reading - make sure I have the columns in the data that I need in the p
 <ul>
 <li>data loading function is called directly where it is defined in the utils. pro: this makes the data available to the ui and the server and means this is run before the app is started. con: does not feel like a clean way of doing things?</li>
 </ul>
-</section>
-<section id="wont-do" class="level1">
-<h1>won’t do</h1>
-<section id="locations" class="level2">
-<h2 class="anchored" data-anchor-id="locations">Locations</h2>
-<p>it would be nice to add the locations from where the emergency services start? see <a href="https://www.stadt-zuerich.ch/pd/de/index/schutz_u_rettung_zuerich/sanitaet/so_arbeiten_wir/rettungsdienstwachen.html">ambulances</a> and <a href="https://www.stadt-zuerich.ch/pd/de/index/schutz_u_rettung_zuerich/feuerwehr/wir_ueber_uns/einsatzgebiet.html">fire services</a> would have to manually parse/add those 6 addresses to a small dataset some of the bases are outside the city itself… never mind.</p>
-<ul>
-<li>emergency calls - low priority
-<ul class="task-list">
-<li><input type="checkbox" disabled>
-play around with the date and come up with a good plot</li>
-<li><input type="checkbox" disabled>
-make a new module for this (is it interactive?)</li>
-<li><input type="checkbox" disabled>
-decide on and adjust overall UI</li>
-</ul></li>
-</ul>
-</section>
 </section>
 
 </main>

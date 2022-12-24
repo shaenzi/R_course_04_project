@@ -9,18 +9,24 @@ format:
 
 # Technical stuff
 
-- where should I run the data loading?
-
-# UI considerations
-
-- mobile? 
-
+- where should I run the data loading? --> asked question on stackoverflow
+- shiny module does not work with bind cache if I have several instances? --> asked question on stackoverflow
 
 # Content considerations
 
 ## Lake
 
-Better to take out the lake in the map?
+Better to take out the lake in the map? postponed.
+
+## Header alignment
+
+only seems aligned if the text is within a module. Currently (slightly hacky) it is hardcoded within the module. I could also have an extra module just for the title.
+same problem without an answer from 7y ago [post](https://groups.google.com/g/shiny-discuss/c/DVF2YQeYfiE)
+
+things that do not lead to the same alignment:
+
+- `p` or `fluidRow` within the app's main ui
+- `header = column(12, "Response times of the emergency services in the city of Zurich.")`  within the navbar page of the app's main ui; it is better/more to the right, but still not aligned with the content of the module
 
 # Concrete todos
 
@@ -32,20 +38,15 @@ Better to take out the lake in the map?
 - [x] adjust colors of map and bars
 - [x] make a navbar page with ambulance, fire services
 - [x] add tabPanel with About Page
-- [ ] improve header alignment - needs help; most promising [post](https://groups.google.com/g/shiny-discuss/c/DVF2YQeYfiE) - but from 2015 and nothing changed...
 - [x] try horizontal radio buttons
-- [ ] lake?
 - [x] make map interactive
 - [x] deploy (automatically) to shinyapps.io
-- [ ] update readme
-- [ ] make the repo public
-- [ ] try without exporting the pipe
+- [x] update readme
+- [x] make the repo public
+- [x] try without exporting the pipe - works too. next time use `export = FALSE`
 - [x] try with caching of plots
 - [x] add hint to user that something is being plotted - could use shinycssloader, but it is kind of overkill
-- write tests
-  - [ ] for data reading - make sure I have the columns in the data that I need in the plot and table
 
-  
 ## finding all dependencies
 apparently I need the markdown package to include markdown (about page). this could not be automatically detected with `attachment::att_amend_desc()`, so I ran
 
@@ -54,7 +55,7 @@ usethis::use_package( "markdown" ) # To call each time you need a new package
 usethis::use_pipe()
 ```
 
-The pipe was also an issue. What is the correct way of dealing with dependencies?
+The pipe was also an issue...
   
 ## filtering
 
@@ -76,17 +77,3 @@ works with separate function, similar to the bar chart one
 # known issues
 
 - data loading function is called directly where it is defined in the utils. pro: this makes the data available to the ui and the server and means this is run before the app is started. con: does not feel like a clean way of doing things?
-
-# won't do
-
-## Locations
-
-it would be nice to add the locations from where the emergency services start?
-see [ambulances](https://www.stadt-zuerich.ch/pd/de/index/schutz_u_rettung_zuerich/sanitaet/so_arbeiten_wir/rettungsdienstwachen.html) and [fire services](https://www.stadt-zuerich.ch/pd/de/index/schutz_u_rettung_zuerich/feuerwehr/wir_ueber_uns/einsatzgebiet.html)
-would have to manually parse/add those 6 addresses to a small dataset
-some of the bases are outside the city itself... never mind.
-
-- emergency calls - low priority
-  - [ ] play around with the date and come up with a good plot
-  - [ ] make a new module for this (is it interactive?)
-  - [ ] decide on and adjust overall UI
