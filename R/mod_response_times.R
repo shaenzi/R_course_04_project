@@ -22,10 +22,11 @@ mod_response_times_ui <- function(id, title, choices, notes=""){
     h2(title),
     fluidRow(column(6,
                     radioButtons(ns("year_switch"),
-                                label = "choose a year",
+                                label = "Choose a year",
                                 choices = choices,
-                                selected = choices[1],
+                                selected = dplyr::last(choices),
                                 inline = TRUE),
+                    p("Proportion of response times below 10 minutes"),
                     leaflet::leafletOutput(ns("map"))),
              column(6,
                     reactable::reactableOutput(ns("table")))
